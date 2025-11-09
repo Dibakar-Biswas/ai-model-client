@@ -18,6 +18,7 @@ export const router = createBrowserRouter([
       {
         path: "/",
         element: <Home></Home>,
+        loader: () => fetch('http://localhost:4000/latest-models')
       },
       {
         path: "/add-model",
