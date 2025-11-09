@@ -1,12 +1,45 @@
-import React from 'react';
+import React from "react";
+import { useLoaderData } from "react-router";
+import { toast } from "react-toastify";
 
 const UpdateModel = () => {
-    return (
-        <div className="flex justify-center items-center min-h-screen">
+  const data = useLoaderData();
+  const model = data.result;
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    const formData = {
+      name: e.target.name.value,
+      framework: e.target.framework.value,
+      useCase: e.target.useCase.value,
+      dataset: e.target.dataset.value,
+      description: e.target.description.value,
+      image: e.target.image.value,
+    };
+    fetch(`http://localhost:4000/models/${model._id}`, {
+      method: "PUT",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify(formData),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        toast.success("Successfully update!")
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  return (
+    <div className="flex justify-center items-center min-h-screen">
       <div className="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">
         <div className="card-body">
-          <h2>Add New Model</h2>
-          <form>
+          <h2 className="text-2xl font-bold text-center">Update Model</h2>
+          <form onSubmit={handleSubmit}>
             <fieldset className="fieldset">
               {/* Name */}
               <div>
@@ -14,6 +47,7 @@ const UpdateModel = () => {
                 <input
                   type="text"
                   name="name"
+                  defaultValue={model.name}
                   className="input rounded-full"
                   placeholder="Enter Name"
                   required
@@ -23,7 +57,7 @@ const UpdateModel = () => {
               <div>
                 <label className="label font-medium">Framework</label>
                 <select
-                  defaultValue={""}
+                  defaultValue={model.framework}
                   name="framework"
                   required
                   className="select w-full rounded-full focus:border-0 focus:outline-gray-200"
@@ -41,11 +75,12 @@ const UpdateModel = () => {
                 </select>
               </div>
 
-                {/* UseCase  */}
+              {/* UseCase  */}
               <div>
                 <label className="label font-medium text-center">UseCase</label>
                 <input
                   type="text"
+                  defaultValue={model.useCase}
                   name="useCase"
                   className="input rounded-full"
                   placeholder="UseCase"
@@ -53,48 +88,51 @@ const UpdateModel = () => {
                 />
               </div>
 
-                {/* Dataset */}
+              {/* Dataset */}
               <div>
                 <label className="label font-medium text-center">Dataset</label>
                 <input
                   type="text"
                   name="dataset"
+                  defaultValue={model.dataset}
                   className="input rounded-full"
                   placeholder="Dataset"
                   required
                 />
               </div>
 
-                {/* Description */}
+              {/* Description */}
               <div>
                 <label className="label font-medium">Description</label>
                 <textarea
                   name="description"
                   required
+                  defaultValue={model.description}
                   rows="3"
                   className="textarea w-full rounded-2xl focus:border-0 focus:outline-gray-200 h-[250px]"
                   placeholder="Enter description"
                 ></textarea>
               </div>
 
-                {/* Image */}
+              {/* Image */}
               <div>
                 <label className="label font-medium">Image URL</label>
                 <input
                   type="url"
                   name="image"
+                  defaultValue={model.image}
                   required
                   className="input w-full rounded-full focus:border-0 focus:outline-gray-200"
                   placeholder="https://example.com/image.jpg"
                 />
               </div>
-              <button className="btn btn-primary mt-4">Add New Model</button>
+              <button className="btn btn-primary mt-4">Update Model</button>
             </fieldset>
           </form>
         </div>
       </div>
     </div>
-    );
+  );
 };
 
 export default UpdateModel;

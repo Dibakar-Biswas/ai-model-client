@@ -8,6 +8,7 @@ import Register from "../pages/Register";
 import AuthLayout from "../layout/AuthLayout";
 import PrivateRoute from "./PrivateRoute";
 import ModelDetails from "../pages/ModelDetails";
+import UpdateModel from "../pages/UpdateModel";
 
 export const router = createBrowserRouter([
   {
@@ -35,7 +36,15 @@ export const router = createBrowserRouter([
             <ModelDetails></ModelDetails>
         </PrivateRoute>,
         loader: ({params}) => fetch(`http://localhost:4000/models/${params.id}`)
-      }
+      },
+      {
+        path: "/update-model/:id",
+        element: <PrivateRoute>
+            <UpdateModel></UpdateModel>
+        </PrivateRoute>,
+        loader: ({params}) => fetch(`http://localhost:4000/models/${params.id}`)
+      },
+      
     ],
   },
   {

@@ -5,7 +5,6 @@ const AddModel = () => {
     const {user } = use(AuthContext)
     const handleSubmit = (e) => {
         e.preventDefault();
-
         const formData = {
             name: e.target.name.value,
             framework: e.target.framework.value,

@@ -1,5 +1,5 @@
 import React from "react";
-import { useLoaderData } from "react-router";
+import { Link, useLoaderData } from "react-router";
 // (Name, Framework, Use Case, Dataset,Description, Image, Purchased Count(e.g, Purchased 3 times))
 const ModelDetails = () => {
   const data = useLoaderData();
@@ -32,19 +32,24 @@ const ModelDetails = () => {
                 {model.purchased} times
               </div>
             </div>
-            <h2 className="text-2xl font-bold text-yellow-500">{model.useCase}</h2>
-            <h2 className="text-2xl font-bold text-pink-500">{model.dataset}</h2>
+            <h2 className="text-2xl font-bold text-yellow-500">
+              {model.useCase}
+            </h2>
+            <h2 className="text-2xl font-bold text-pink-500">
+              {model.dataset}
+            </h2>
 
             <p className="text-gray-600 leading-relaxed text-base md:text-lg">
               {model.description}
             </p>
-
-            
+            <div className="flex gap-3 mt-5">
+                <Link to={`/update-model/${model._id}`} className="btn btn-primary">Update</Link>
+                <Link className="btn">Delete</Link>
             </div>
           </div>
         </div>
       </div>
-
+    </div>
   );
 };
 
