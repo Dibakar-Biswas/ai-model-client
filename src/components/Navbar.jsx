@@ -8,7 +8,7 @@ import { Link, NavLink } from "react-router";
 import { AuthContext } from "../context/AuthContext";
 
 const Navbar = () => {
-    const {user} = use(AuthContext)
+    const {user, signOutUser} = use(AuthContext)
 
     const links = (
         <>
@@ -46,7 +46,7 @@ const Navbar = () => {
           </ul>
         </div>
         <Link to="/" className="btn btn-ghost text-xl">AI Manager</Link>
-        <div className="">{user && user.email}</div>
+        {/* <div className="">{user && user.email}</div> */}
       </div>
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal px-1">
@@ -86,12 +86,12 @@ const Navbar = () => {
                 </Link>
               </li>
               <li>
-                {/* <button
+                <button
                   onClick={signOutUser}
                   className="btn btn-xs text-left bg-linear-to-r from-pink-500 to-red-500 text-white"
                 >
                   <IoLogOut /> Logout
-                </button> */}
+                </button>
               </li>
             </ul>
           </div>
