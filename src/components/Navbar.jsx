@@ -1,5 +1,5 @@
 import React, { use } from "react";
-import { FaAnchor, FaHome, FaModx, FaUser } from "react-icons/fa";
+import { FaAnchor, FaHome, FaModx, FaPlus, FaUser } from "react-icons/fa";
 import { FaGear } from "react-icons/fa6";
 import { ImBoxAdd } from "react-icons/im";
 import { IoLogoModelS } from "react-icons/io";
@@ -80,14 +80,17 @@ const Navbar = () => {
                 <li className="text-sm font-bold">{user.displayName}</li>
                 <li className="text-xs">{user.email}</li>
               </div>
-              <li className="mt-3">
-                <Link to={"/profile"}>
-                  <FaUser /> Profile
-                </Link>
-              </li>
-              <li className="mt-3">
+              
+
+              <li className="mt-1">
                 <Link to={"/my-models"}>
                   <FaAnchor /> My Models
+                </Link>
+              </li>
+
+              <li className="mt-1">
+                <Link to={"/my-purchase"}>
+                  <FaPlus /> My Purchase
                 </Link>
               </li>
               <li>

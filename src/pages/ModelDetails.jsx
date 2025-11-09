@@ -2,28 +2,27 @@ import React, { use, useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router";
 import Swal from "sweetalert2";
 import { AuthContext } from "../context/AuthContext";
+import { toast } from "react-toastify";
 // (Name, Framework, Use Case, Dataset,Description, Image, Purchased Count(e.g, Purchased 3 times))
 const ModelDetails = () => {
-    const navigate = useNavigate()
-    const {id} = useParams()
-    const [model, setModel] = useState({})
-    const [loading, setLoading] = useState(true)
-    const {user} = use(AuthContext)
+  const navigate = useNavigate();
+  const { id } = useParams();
+  const [model, setModel] = useState({});
+  const [loading, setLoading] = useState(true);
+  const { user } = use(AuthContext);
 
-    useEffect(() => {
-        fetch(`http://localhost:4000/models/${id}`,{
-            headers: {
-                authorization: `Bearer ${user.accessToken}`
-            }
-        })
-        .then(res => res.json())
-        .then(data =>{
-            console.log(data)
-            setModel(data.result)
-            setLoading(false)
-        })
-    },[])
-
+  useEffect(() => {
+    fetch(`http://localhost:4000/models/${id}`, {
+      headers: {
+        authorization: `Bearer ${user.accessToken}`,
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setModel(data.result);
+        setLoading(false);
+      });
+  }, [user, id]);
 
   const handleDelete = () => {
     Swal.fire({
@@ -36,36 +35,53 @@ const ModelDetails = () => {
       confirmButtonText: "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
-
         fetch(`http://localhost:4000/models/${model._id}`, {
-            method: "DELETE",
-            headers: {
-                "Content-type" : "application/json"
-            },
+          method: "DELETE",
+          headers: {
+            "Content-type": "application/json",
+          },
         })
-        .then(res => res.json())
-        .then(data => {
-            console.log(data)
-            navigate('/view-model')
+          .then((res) => res.json())
+          .then((data) => {
+            console.log(data);
+            navigate("/view-model");
             Swal.fire({
-          title: "Deleted!",
-          text: "Your file has been deleted.",
-          icon: "success",
-        });
-        })
-        .catch(err => {
-            console.log(err)
-        })
-
-
-        
+              title: "Deleted!",
+              text: "Your file has been deleted.",
+              icon: "success",
+            });
+          })
+          .catch((err) => {
+            console.log(err);
+          });
       }
     });
   };
 
+  const handlePurchase = () => {
+    fetch(`http://localhost:4000/purchases`, {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify({...model, purchased_by: user.email})
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data); 
+        toast.success('Successfully purchased')
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
-  if(loading){
-    return <div className='flex justify-center items-center text-4xl'><span className="loading loading-spinner text-success"></span></div>
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center text-4xl">
+        <span className="loading loading-spinner text-success"></span>
+      </div>
+    );
   }
   return (
     <div className="max-w-5xl mx-auto p-4 md:p-6 lg:p-8">
@@ -111,8 +127,15 @@ const ModelDetails = () => {
               >
                 Update
               </Link>
-              <button className="btn btn-secondary rounded-full">Purchase</button>
-              <button onClick={handleDelete} className="btn rounded-full bg-red-400">Delete</button>
+              <button onClick={handlePurchase} className="btn btn-secondary rounded-full">
+                Purchase
+              </button>
+              <button
+                onClick={handleDelete}
+                className="btn rounded-full bg-red-400"
+              >
+                Delete
+              </button>
             </div>
           </div>
         </div>

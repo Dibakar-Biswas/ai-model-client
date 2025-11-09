@@ -21,7 +21,7 @@ const MyModels = () => {
             setModels(data)
             setLoading(false)
         })
-    },[])
+    },[user])
 
 
     if(loading){
