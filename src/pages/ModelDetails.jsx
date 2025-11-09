@@ -1,13 +1,29 @@
-import React from "react";
-import { Link, useLoaderData, useNavigate } from "react-router";
+import React, { use, useEffect, useState } from "react";
+import { Link, useNavigate, useParams } from "react-router";
 import Swal from "sweetalert2";
+import { AuthContext } from "../context/AuthContext";
 // (Name, Framework, Use Case, Dataset,Description, Image, Purchased Count(e.g, Purchased 3 times))
 const ModelDetails = () => {
-  const data = useLoaderData();
-  const model = data.result;
-  console.log(model);
+    const navigate = useNavigate()
+    const {id} = useParams()
+    const [model, setModel] = useState({})
+    const [loading, setLoading] = useState(true)
+    const {user} = use(AuthContext)
 
-  const navigate = useNavigate()
+    useEffect(() => {
+        fetch(`http://localhost:4000/models/${id}`,{
+            headers: {
+                authorization: `Bearer ${user.accessToken}`
+            }
+        })
+        .then(res => res.json())
+        .then(data =>{
+            console.log(data)
+            setModel(data.result)
+            setLoading(false)
+        })
+    },[])
+
 
   const handleDelete = () => {
     Swal.fire({
@@ -46,6 +62,11 @@ const ModelDetails = () => {
       }
     });
   };
+
+
+  if(loading){
+    return <div className='flex justify-center items-center text-4xl'><span className="loading loading-spinner text-success"></span></div>
+  }
   return (
     <div className="max-w-5xl mx-auto p-4 md:p-6 lg:p-8">
       <div className="card bg-base-100 shadow-xl border border-gray-200 rounded-2xl overflow-hidden">
@@ -86,11 +107,12 @@ const ModelDetails = () => {
             <div className="flex gap-3 mt-5">
               <Link
                 to={`/update-model/${model._id}`}
-                className="btn btn-primary"
+                className="btn btn-primary rounded-full"
               >
                 Update
               </Link>
-              <button onClick={handleDelete} className="btn">Delete</button>
+              <button className="btn btn-secondary rounded-full">Purchase</button>
+              <button onClick={handleDelete} className="btn rounded-full bg-red-400">Delete</button>
             </div>
           </div>
         </div>

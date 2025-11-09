@@ -1,5 +1,5 @@
 import React, { use } from "react";
-import { FaHome, FaModx, FaUser } from "react-icons/fa";
+import { FaAnchor, FaHome, FaModx, FaUser } from "react-icons/fa";
 import { FaGear } from "react-icons/fa6";
 import { ImBoxAdd } from "react-icons/im";
 import { IoLogoModelS } from "react-icons/io";
@@ -77,12 +77,17 @@ const Navbar = () => {
               className="menu  menu-sm dropdown-content bg-base-100 rounded-box z-50 mt-3 w-52 p-2 shadow"
             >
               <div className=" pb-3 border-b border-b-gray-200">
-                <li className="text-sm font-bold">{user.name}</li>
+                <li className="text-sm font-bold">{user.displayName}</li>
                 <li className="text-xs">{user.email}</li>
               </div>
               <li className="mt-3">
                 <Link to={"/profile"}>
                   <FaUser /> Profile
+                </Link>
+              </li>
+              <li className="mt-3">
+                <Link to={"/my-models"}>
+                  <FaAnchor /> My Models
                 </Link>
               </li>
               <li>
