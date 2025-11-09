@@ -6,6 +6,7 @@ import ViewModel from "../pages/ViewModel";
 import Login from "../pages/Login";
 import Register from "../pages/Register";
 import AuthLayout from "../layout/AuthLayout";
+import PrivateRoute from "./PrivateRoute";
 
 export const router = createBrowserRouter([
   {
@@ -18,7 +19,9 @@ export const router = createBrowserRouter([
       },
       {
         path: "/add-model",
-        element: <AddModel></AddModel>,
+        element: <PrivateRoute>
+            <AddModel></AddModel>
+        </PrivateRoute>,
       },
       {
         path: "/view-model",
