@@ -1,10 +1,51 @@
 import React from "react";
-import { Link, useLoaderData } from "react-router";
+import { Link, useLoaderData, useNavigate } from "react-router";
+import Swal from "sweetalert2";
 // (Name, Framework, Use Case, Dataset,Description, Image, Purchased Count(e.g, Purchased 3 times))
 const ModelDetails = () => {
   const data = useLoaderData();
   const model = data.result;
   console.log(model);
+
+  const navigate = useNavigate()
+
+  const handleDelete = () => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+
+        fetch(`http://localhost:4000/models/${model._id}`, {
+            method: "DELETE",
+            headers: {
+                "Content-type" : "application/json"
+            },
+        })
+        .then(res => res.json())
+        .then(data => {
+            console.log(data)
+            navigate('/view-model')
+            Swal.fire({
+          title: "Deleted!",
+          text: "Your file has been deleted.",
+          icon: "success",
+        });
+        })
+        .catch(err => {
+            console.log(err)
+        })
+
+
+        
+      }
+    });
+  };
   return (
     <div className="max-w-5xl mx-auto p-4 md:p-6 lg:p-8">
       <div className="card bg-base-100 shadow-xl border border-gray-200 rounded-2xl overflow-hidden">
@@ -43,8 +84,13 @@ const ModelDetails = () => {
               {model.description}
             </p>
             <div className="flex gap-3 mt-5">
-                <Link to={`/update-model/${model._id}`} className="btn btn-primary">Update</Link>
-                <Link className="btn">Delete</Link>
+              <Link
+                to={`/update-model/${model._id}`}
+                className="btn btn-primary"
+              >
+                Update
+              </Link>
+              <button onClick={handleDelete} className="btn">Delete</button>
             </div>
           </div>
         </div>

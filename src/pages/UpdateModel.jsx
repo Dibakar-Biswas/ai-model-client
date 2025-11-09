@@ -1,10 +1,12 @@
 import React from "react";
-import { useLoaderData } from "react-router";
+import { useLoaderData, useNavigate } from "react-router";
 import { toast } from "react-toastify";
 
 const UpdateModel = () => {
   const data = useLoaderData();
   const model = data.result;
+
+  const navigate = useNavigate()
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -27,12 +29,15 @@ const UpdateModel = () => {
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
-        toast.success("Successfully update!")
+        navigate('/view-model')
+        toast.success("Successfully update!");
       })
       .catch((err) => {
         console.log(err);
       });
   };
+
+
 
   return (
     <div className="flex justify-center items-center min-h-screen">
