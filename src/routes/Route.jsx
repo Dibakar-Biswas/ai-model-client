@@ -7,6 +7,7 @@ import Login from "../pages/Login";
 import Register from "../pages/Register";
 import AuthLayout from "../layout/AuthLayout";
 import PrivateRoute from "./PrivateRoute";
+import ModelDetails from "../pages/ModelDetails";
 
 export const router = createBrowserRouter([
   {
@@ -28,6 +29,13 @@ export const router = createBrowserRouter([
         element: <ViewModel></ViewModel>,
         loader: () =>fetch('http://localhost:4000/models')
       },
+      {
+        path: "/model-details/:id",
+        element: <PrivateRoute>
+            <ModelDetails></ModelDetails>
+        </PrivateRoute>,
+        loader: ({params}) => fetch(`http://localhost:4000/models/${params.id}`)
+      }
     ],
   },
   {

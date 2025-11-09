@@ -24,8 +24,8 @@ const ModelCard = ({model}) => {
         </div>
       </div>
         <p>{description}</p>
-        <button className="btn mt-3">View</button>
-        {/* <Link to={`/model-details/${_id}`} className="btn rounded-full bg-linear-to-r from-pink-500 to-red-600 hover:from-red-600 hover:to-pink-500 text-white w-full btn-sm">View</Link>*/}
+        <Link to={`/model-details/${_id}`} className="btn btn-primary mt-3">View Details</Link>
+        
     </div> 
   );
 };
