@@ -1,4 +1,4 @@
-import React, { use } from "react";
+import React, { use, useEffect, useState } from "react";
 import { FaAnchor, FaHome, FaModx, FaPlus, FaUser } from "react-icons/fa";
 import { FaGear } from "react-icons/fa6";
 import { ImBoxAdd } from "react-icons/im";
@@ -8,15 +8,55 @@ import { Link, NavLink } from "react-router";
 import { AuthContext } from "../context/AuthContext";
 
 const Navbar = () => {
-    const {user, signOutUser} = use(AuthContext)
+  const { user, signOutUser } = use(AuthContext);
+  const [theme, setTheme] = useState(localStorage.getItem("theme") || "light");
 
-    const links = (
-        <>
-        <li><NavLink className={({isActive}) => (isActive ? "text-red-600 font-bold" : "")} to="/"><FaHome></FaHome> Home</NavLink></li>
-        <li><NavLink className={({isActive}) => (isActive ? "text-red-600 font-bold" : "")} to="/view-model"><IoLogoModelS />View Model</NavLink></li>
-        <li><NavLink className={({isActive}) => (isActive ? "text-red-600 font-bold" : "")} to="/add-model"><ImBoxAdd />Add Model</NavLink></li>
-        </>
-    )
+  useEffect(() => {
+    const html = document.querySelector("html");
+    html.setAttribute("data-theme", theme);
+    localStorage.setItem("theme", theme);
+  }, [theme]);
+
+  const handleTheme = (checked) => {
+    setTheme(checked ? "dark" : "light");
+  };
+
+  const links = (
+    <>
+      <li>
+        <NavLink
+          className={({ isActive }) =>
+            isActive ? "text-red-600 font-bold" : ""
+          }
+          to="/"
+        >
+          <FaHome></FaHome> Home
+        </NavLink>
+      </li>
+      <li>
+        <NavLink
+          className={({ isActive }) =>
+            isActive ? "text-red-600 font-bold" : ""
+          }
+          to="/view-model"
+        >
+          <IoLogoModelS />
+          View Model
+        </NavLink>
+      </li>
+      <li>
+        <NavLink
+          className={({ isActive }) =>
+            isActive ? "text-red-600 font-bold" : ""
+          }
+          to="/add-model"
+        >
+          <ImBoxAdd />
+          Add Model
+        </NavLink>
+      </li>
+    </>
+  );
   return (
     <div className="navbar bg-base-100 shadow-sm">
       <div className="navbar-start">
@@ -45,16 +85,21 @@ const Navbar = () => {
             {links}
           </ul>
         </div>
-        <Link to="/" className="btn btn-ghost text-xl">AI Manager</Link>
+        <Link to="/" className="btn btn-ghost text-xl">
+          AI Manager
+        </Link>
         {/* <div className="">{user && user.email}</div> */}
       </div>
       <div className="navbar-center hidden lg:flex">
-        <ul className="menu menu-horizontal px-1">
-          
-        {links}
-        </ul>
+        <ul className="menu menu-horizontal px-1">{links}</ul>
       </div>
       <div className="navbar-end">
+        <input
+          onChange={(e) => handleTheme(e.target.checked)}
+          type="checkbox"
+          defaultChecked={localStorage.getItem("theme") === "dark"}
+          className="toggle mr-2"
+        />
         {user ? (
           <div className="dropdown dropdown-end z-50">
             <div
@@ -66,9 +111,7 @@ const Navbar = () => {
                 <img
                   alt="Tailwind CSS Navbar component"
                   referrerPolicy="no-referrer"
-                  src={
-                    user.photoURL
-                  }
+                  src={user.photoURL}
                 />
               </div>
             </div>
@@ -80,7 +123,6 @@ const Navbar = () => {
                 <li className="text-sm font-bold">{user.displayName}</li>
                 <li className="text-xs">{user.email}</li>
               </div>
-              
 
               <li className="mt-1">
                 <Link to={"/my-models"}>
