@@ -17,6 +17,8 @@ const Home = () => {
           <ModelCard key={model._id} model={model}></ModelCard>
         ))}
       </div>
+
+      
     </div>
   );
 };
