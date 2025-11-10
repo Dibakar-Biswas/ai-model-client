@@ -10,12 +10,12 @@ const ModelDetails = () => {
   const [model, setModel] = useState({});
   const [loading, setLoading] = useState(true);
   const { user } = use(AuthContext);
-  const [refetch, setRefetch] = useState(false)
+  const [refetch, setRefetch] = useState(false);
 
-  const isCreator = model.createdBy === user?.email
+  const isCreator = model.createdBy === user?.email;
 
   useEffect(() => {
-    fetch(`http://localhost:4000/models/${id}`, {
+    fetch(`https://ai-manager-server.vercel.app/models/${id}`, {
       headers: {
         authorization: `Bearer ${user.accessToken}`,
       },
@@ -23,7 +23,7 @@ const ModelDetails = () => {
       .then((res) => res.json())
       .then((data) => {
         setModel(data.result);
-        console.log(data)
+        console.log(data);
         setLoading(false);
       });
   }, [user, id, refetch]);
@@ -39,7 +39,7 @@ const ModelDetails = () => {
       confirmButtonText: "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        fetch(`http://localhost:4000/models/${model._id}`, {
+        fetch(`https://ai-manager-server.vercel.app/models/${model._id}`, {
           method: "DELETE",
           headers: {
             "Content-type": "application/json",
@@ -64,29 +64,29 @@ const ModelDetails = () => {
 
   const handlePurchase = () => {
     const finalModel = {
-        name: model.name,
-        createdAt: new Date(),
-        createdBy: model.createdBy,
-        dataset: model.dataset,
-        description: model.description,
-        framework: model.framework,
-        image: model.image,
-        purchased: model.purchased,
-        useCase: model.useCase,
-        purchased_by: user.email
-    }
-    fetch(`http://localhost:4000/purchases/${model._id}`, {
+      name: model.name,
+      createdAt: new Date(),
+      createdBy: model.createdBy,
+      dataset: model.dataset,
+      description: model.description,
+      framework: model.framework,
+      image: model.image,
+      purchased: model.purchased,
+      useCase: model.useCase,
+      purchased_by: user.email,
+    };
+    fetch(`https://ai-manager-server.vercel.app/purchases/${model._id}`, {
       method: "POST",
       headers: {
         "Content-type": "application/json",
       },
-      body: JSON.stringify({finalModel})
+      body: JSON.stringify({ finalModel }),
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data); 
-        toast.success('Successfully purchased')
-        setRefetch(!refetch)
+        console.log(data);
+        toast.success("Successfully purchased");
+        setRefetch(!refetch);
       })
       .catch((err) => {
         console.log(err);
@@ -117,13 +117,13 @@ const ModelDetails = () => {
               {model.name}
             </h1>
 
-            <div className="flex gap-3">
+            <div className="flex flex-col md:flex-row justify-center gap-3">
               <div className="badge badge-lg badge-outline text-pink-600 border-pink-600 font-medium">
                 {model.framework}
               </div>
 
-              <div className="badge badge-lg badge-outline text-pink-600 border-pink-600 font-medium">
-                Purchased:  
+              <div className="badge badge-2xl md:badge-lg badge-outline text-pink-600 border-pink-600 font-medium">
+                Purchased:
                 {model.purchased} times
               </div>
             </div>
@@ -137,25 +137,28 @@ const ModelDetails = () => {
             <p className="text-gray-600 leading-relaxed text-base md:text-lg">
               {model.description}
             </p>
-            <div className="flex gap-3 mt-5">
+            <div className="flex flex-col md:flex-row gap-3 mt-5">
               {isCreator && (
                 <Link
-                to={`/update-model/${model._id}`}
-                className="btn btn-primary rounded-full"
-              >
-                Update
-              </Link>
+                  to={`/update-model/${model._id}`}
+                  className="btn btn-primary rounded-full"
+                >
+                  Update
+                </Link>
               )}
-              <button onClick={handlePurchase} className="btn btn-secondary rounded-full">
+              <button
+                onClick={handlePurchase}
+                className="btn btn-secondary rounded-full"
+              >
                 Purchase
               </button>
               {isCreator && (
                 <button
-                onClick={handleDelete}
-                className="btn rounded-full bg-red-400"
-              >
-                Delete
-              </button>
+                  onClick={handleDelete}
+                  className="btn rounded-full bg-red-400"
+                >
+                  Delete
+                </button>
               )}
             </div>
           </div>

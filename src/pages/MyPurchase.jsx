@@ -8,11 +8,14 @@ const MyPurchase = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch(`http://localhost:4000/my-purchase?email=${user.email}`, {
-      headers: {
-        authorization: `Bearer ${user.accessToken}`,
-      },
-    })
+    fetch(
+      `https://ai-manager-server.vercel.app/my-purchase?email=${user.email}`,
+      {
+        headers: {
+          authorization: `Bearer ${user.accessToken}`,
+        },
+      }
+    )
       .then((res) => res.json())
       .then((data) => {
         setModels(data);
@@ -29,7 +32,9 @@ const MyPurchase = () => {
   }
   return (
     <div>
-        <h3 className='text-3xl font-bold text-fuchsia-700 mb-4'>My Purchased Model</h3>
+      <h3 className="text-3xl font-bold text-fuchsia-700 mb-4">
+        My Purchased Model
+      </h3>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
         {models.map((model) => (
           <ModelCard key={model._id} model={model}></ModelCard>

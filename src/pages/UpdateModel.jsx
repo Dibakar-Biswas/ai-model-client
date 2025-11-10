@@ -6,7 +6,7 @@ const UpdateModel = () => {
   const data = useLoaderData();
   const model = data.result;
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -19,7 +19,7 @@ const UpdateModel = () => {
       description: e.target.description.value,
       image: e.target.image.value,
     };
-    fetch(`http://localhost:4000/models/${model._id}`, {
+    fetch(`https://ai-manager-server.vercel.app/models/${model._id}`, {
       method: "PUT",
       headers: {
         "Content-type": "application/json",
@@ -29,15 +29,13 @@ const UpdateModel = () => {
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
-        navigate('/view-model')
+        navigate("/view-model");
         toast.success("Successfully update!");
       })
       .catch((err) => {
         console.log(err);
       });
   };
-
-
 
   return (
     <div className="flex justify-center items-center min-h-screen">

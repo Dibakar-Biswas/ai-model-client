@@ -6,7 +6,7 @@ const ViewModel = () => {
   const data = useLoaderData();
   const [models, setModels] = useState(data);
   const [loading, setLoading] = useState(false);
-  const [selectedFrameworks, setSelectedFrameworks] = useState([])
+  const [selectedFrameworks, setSelectedFrameworks] = useState([]);
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -14,7 +14,7 @@ const ViewModel = () => {
     console.log(search_title);
     setLoading(true);
 
-    fetch(`http://localhost:4000/search?search=${search_title}`)
+    fetch(`https://ai-manager-server.vercel.app/search?search=${search_title}`)
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
@@ -27,30 +27,28 @@ const ViewModel = () => {
     const value = e.target.value;
     let updatedFrameworks;
 
-    if(selectedFrameworks.includes(value)){
-        updatedFrameworks = selectedFrameworks.filter(fw => fw !== value)
+    if (selectedFrameworks.includes(value)) {
+      updatedFrameworks = selectedFrameworks.filter((fw) => fw !== value);
+    } else {
+      updatedFrameworks = [...selectedFrameworks, value];
     }
-    else{
-        updatedFrameworks = [...selectedFrameworks, value]
-    }
-    setSelectedFrameworks(updatedFrameworks)
+    setSelectedFrameworks(updatedFrameworks);
 
-    if(updatedFrameworks.length > 0){
-        setLoading(true)
-        const frameworkQuery = updatedFrameworks.join(',')
+    if (updatedFrameworks.length > 0) {
+      setLoading(true);
+      const frameworkQuery = updatedFrameworks.join(",");
 
-        fetch(`http://localhost:4000/filter?framework=${frameworkQuery}`)
-      .then((res) => res.json())
-      .then((data) => {
-        setModels(data);
-        setLoading(false);
-      });
+      fetch(
+        `https://ai-manager-server.vercel.app/filter?framework=${frameworkQuery}`
+      )
+        .then((res) => res.json())
+        .then((data) => {
+          setModels(data);
+          setLoading(false);
+        });
+    } else {
+      setModels(data);
     }
-    else{
-        setModels(data)
-    }
-
-    
   };
 
   if (loading) {
@@ -70,26 +68,26 @@ const ViewModel = () => {
           <div className="card bg-base-200 p-4 w-full max-w-md">
             <h3 className="font-semibold mb-2">Filter by Framework</h3>
             <div className="flex flex-wrap gap-2">
-            {['TensorFlow', 'PyTorch', 'JAX', 'Other'].map((framework) => (
-              <label key={framework} className="cursor-pointer flex items-center gap-2">
-                <input
-                  type="checkbox"
-                  value={framework}
-                  checked={selectedFrameworks.includes(framework)}
-                  onChange={handleFilter}
-                  className="checkbox checkbox-primary"
-                />
-                <span>{framework}</span>
-              </label>
-            ))}
-          </div>
+              {["TensorFlow", "PyTorch", "JAX", "Other"].map((framework) => (
+                <label
+                  key={framework}
+                  className="cursor-pointer flex items-center gap-2"
+                >
+                  <input
+                    type="checkbox"
+                    value={framework}
+                    checked={selectedFrameworks.includes(framework)}
+                    onChange={handleFilter}
+                    className="checkbox checkbox-primary"
+                  />
+                  <span>{framework}</span>
+                </label>
+              ))}
+            </div>
           </div>
         </div>
 
-        <form
-          onSubmit={handleSearch}
-          className="mt-5 mb-5 flex gap-2"
-        >
+        <form onSubmit={handleSearch} className="mt-5 mb-5 flex gap-2">
           <label className="input rounded-full">
             <svg
               className="h-[1em] opacity-50"

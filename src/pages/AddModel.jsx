@@ -4,38 +4,38 @@ import { useNavigate } from "react-router";
 import { toast } from "react-toastify";
 
 const AddModel = () => {
-    const {user } = use(AuthContext)
-    const navigate = useNavigate()
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        const formData = {
-            name: e.target.name.value,
-            framework: e.target.framework.value,
-            useCase: e.target.useCase.value,
-            dataset: e.target.dataset.value,
-            description: e.target.description.value,
-            image: e.target.image.value,
-            createdAt: new Date(),
-            purchased: 0,
-            createdBy: user.email
-        }
-        fetch('http://localhost:4000/models', {
-            method: "POST",
-            headers: {
-                "Content-type" : "application/json"
-            },
-            body: JSON.stringify(formData)
-        })
-        .then(res => res.json())
-        .then(data => {
-            toast.success('Successfully added!')
-            console.log(data)
-            navigate('/')
-        })
-        .catch(err => {
-            console.log(err)
-        })
-    }
+  const { user } = use(AuthContext);
+  const navigate = useNavigate();
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const formData = {
+      name: e.target.name.value,
+      framework: e.target.framework.value,
+      useCase: e.target.useCase.value,
+      dataset: e.target.dataset.value,
+      description: e.target.description.value,
+      image: e.target.image.value,
+      createdAt: new Date(),
+      purchased: 0,
+      createdBy: user.email,
+    };
+    fetch("https://ai-manager-server.vercel.app/models", {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify(formData),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        toast.success("Successfully added!");
+        console.log(data);
+        navigate("/");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   return (
     <div className="flex justify-center items-center min-h-screen">
       <div className="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">
@@ -76,7 +76,7 @@ const AddModel = () => {
                 </select>
               </div>
 
-                {/* UseCase  */}
+              {/* UseCase  */}
               <div>
                 <label className="label font-medium text-center">UseCase</label>
                 <input
@@ -88,7 +88,7 @@ const AddModel = () => {
                 />
               </div>
 
-                {/* Dataset */}
+              {/* Dataset */}
               <div>
                 <label className="label font-medium text-center">Dataset</label>
                 <input
@@ -100,7 +100,7 @@ const AddModel = () => {
                 />
               </div>
 
-                {/* Description */}
+              {/* Description */}
               <div>
                 <label className="label font-medium">Description</label>
                 <textarea
@@ -112,7 +112,7 @@ const AddModel = () => {
                 ></textarea>
               </div>
 
-                {/* Image */}
+              {/* Image */}
               <div>
                 <label className="label font-medium">Image URL</label>
                 <input

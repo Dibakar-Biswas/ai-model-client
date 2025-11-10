@@ -17,50 +17,61 @@ export const router = createBrowserRouter([
   {
     path: "/",
     element: <MainLayout></MainLayout>,
-    errorElement: <Error></Error> ,
+    errorElement: <Error></Error>,
     children: [
       {
         path: "/",
         element: <Home></Home>,
-        loader: () => fetch('http://localhost:4000/latest-models')
+        loader: () =>
+          fetch("https://ai-manager-server.vercel.app/latest-models"),
       },
       {
         path: "/add-model",
-        element: <PrivateRoute>
+        element: (
+          <PrivateRoute>
             <AddModel></AddModel>
-        </PrivateRoute>,
+          </PrivateRoute>
+        ),
       },
       {
         path: "/view-model",
         element: <ViewModel></ViewModel>,
-        loader: () =>fetch('http://localhost:4000/models')
+        loader: () => fetch("https://ai-manager-server.vercel.app/models"),
       },
       {
         path: "/model-details/:id",
-        element: <PrivateRoute>
+        element: (
+          <PrivateRoute>
             <ModelDetails></ModelDetails>
-        </PrivateRoute>
+          </PrivateRoute>
+        ),
       },
       {
-        path: '/my-models',
-        element: <PrivateRoute>
+        path: "/my-models",
+        element: (
+          <PrivateRoute>
             <MyModels></MyModels>
-        </PrivateRoute>
+          </PrivateRoute>
+        ),
       },
-        {
-        path: '/my-purchase',
-        element: <PrivateRoute>
+      {
+        path: "/my-purchase",
+        element: (
+          <PrivateRoute>
             <MyPurchase></MyPurchase>
-        </PrivateRoute>
+          </PrivateRoute>
+        ),
       },
       {
         path: "/update-model/:id",
-        element: <PrivateRoute>
+        element: (
+          <PrivateRoute>
             <UpdateModel></UpdateModel>
-        </PrivateRoute>,
-        loader: ({params}) => fetch(`http://localhost:4000/models/${params.id}`)
+          </PrivateRoute>
+        ),
+        loader: ({ params }) =>
+          fetch(`https://ai-manager-server.vercel.app/models/${params.id}`),
       },
-      
     ],
   },
   {
