@@ -12,6 +12,8 @@ const ModelDetails = () => {
   const { user } = use(AuthContext);
   const [refetch, setRefetch] = useState(false)
 
+  const isCreator = model.createdBy === user?.email
+
   useEffect(() => {
     fetch(`http://localhost:4000/models/${id}`, {
       headers: {
@@ -136,21 +138,25 @@ const ModelDetails = () => {
               {model.description}
             </p>
             <div className="flex gap-3 mt-5">
-              <Link
+              {isCreator && (
+                <Link
                 to={`/update-model/${model._id}`}
                 className="btn btn-primary rounded-full"
               >
                 Update
               </Link>
+              )}
               <button onClick={handlePurchase} className="btn btn-secondary rounded-full">
                 Purchase
               </button>
-              <button
+              {isCreator && (
+                <button
                 onClick={handleDelete}
                 className="btn rounded-full bg-red-400"
               >
                 Delete
               </button>
+              )}
             </div>
           </div>
         </div>

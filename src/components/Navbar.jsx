@@ -6,6 +6,7 @@ import { IoLogoModelS } from "react-icons/io";
 import { IoLogIn, IoLogOut } from "react-icons/io5";
 import { Link, NavLink } from "react-router";
 import { AuthContext } from "../context/AuthContext";
+import logo from '../assets/logo.jpg'
 
 const Navbar = () => {
   const { user, signOutUser } = use(AuthContext);
@@ -58,7 +59,7 @@ const Navbar = () => {
     </>
   );
   return (
-    <div className="navbar bg-base-100 shadow-sm">
+    <div className="navbar bg-base-100 shadow-sm relative z-50">
       <div className="navbar-start">
         <div className="dropdown">
           <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
@@ -85,7 +86,7 @@ const Navbar = () => {
             {links}
           </ul>
         </div>
-        <Link to="/" className="btn btn-ghost text-xl">
+        <Link to="/" className="btn btn-ghost text-3xl text-blue-500"><img className="h-12 w-12 rounded-full" src={logo} alt="" /> 
           AI Manager
         </Link>
         {/* <div className="">{user && user.email}</div> */}
