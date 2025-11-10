@@ -10,6 +10,7 @@ const ModelDetails = () => {
   const [model, setModel] = useState({});
   const [loading, setLoading] = useState(true);
   const { user } = use(AuthContext);
+  const [refetch, setRefetch] = useState(false)
 
   useEffect(() => {
     fetch(`http://localhost:4000/models/${id}`, {
@@ -20,9 +21,10 @@ const ModelDetails = () => {
       .then((res) => res.json())
       .then((data) => {
         setModel(data.result);
+        console.log(data)
         setLoading(false);
       });
-  }, [user, id]);
+  }, [user, id, refetch]);
 
   const handleDelete = () => {
     Swal.fire({
@@ -59,17 +61,30 @@ const ModelDetails = () => {
   };
 
   const handlePurchase = () => {
-    fetch(`http://localhost:4000/purchases`, {
+    const finalModel = {
+        name: model.name,
+        createdAt: new Date(),
+        createdBy: model.createdBy,
+        dataset: model.dataset,
+        description: model.description,
+        framework: model.framework,
+        image: model.image,
+        purchased: model.purchased,
+        useCase: model.useCase,
+        purchased_by: user.email
+    }
+    fetch(`http://localhost:4000/purchases/${model._id}`, {
       method: "POST",
       headers: {
         "Content-type": "application/json",
       },
-      body: JSON.stringify({...model, purchased_by: user.email})
+      body: JSON.stringify({finalModel})
     })
       .then((res) => res.json())
       .then((data) => {
         console.log(data); 
         toast.success('Successfully purchased')
+        setRefetch(!refetch)
       })
       .catch((err) => {
         console.log(err);
@@ -106,7 +121,7 @@ const ModelDetails = () => {
               </div>
 
               <div className="badge badge-lg badge-outline text-pink-600 border-pink-600 font-medium">
-                Purchased:
+                Purchased:  
                 {model.purchased} times
               </div>
             </div>
