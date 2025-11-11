@@ -37,6 +37,14 @@ const UpdateModel = () => {
       });
   };
 
+  if (!model) {
+    return (
+      <div className="flex justify-center items-center text-4xl">
+        <span className="loading loading-spinner text-success"></span>
+      </div>
+    );
+  }
+
   return (
     <div className="flex justify-center items-center min-h-screen">
       <div className="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">
@@ -56,7 +64,7 @@ const UpdateModel = () => {
                   required
                 />
               </div>
-              {/* Framework Dropdown */}
+
               <div>
                 <label className="label font-medium">Framework</label>
                 <select

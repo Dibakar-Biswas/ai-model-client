@@ -5,12 +5,14 @@ import AboutAI from "../components/AboutAI";
 import GetStarted from "../components/GetStarted";
 import Sliders from "../components/Sliders";
 
+
 const Home = () => {
   const data = useLoaderData();
   console.log(data);
   return (
     <div>
       <Sliders></Sliders>
+
 
       <div className="text-4xl font-bold mb-4 mt-4">Featured AI Models</div>
 

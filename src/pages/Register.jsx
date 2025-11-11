@@ -32,6 +32,7 @@ const Register = () => {
     createUser(email, password)
       .then((result) => {
         setUser(result.user);
+        navigate(location?.state?.from?.pathname || "/");
         toast.success("User created successfully");
       })
       .catch((error) => {
@@ -44,12 +45,13 @@ const Register = () => {
     signInWithGoogle()
       .then((result) => {
         console.log(result.user);
-        navigate(location?.state || "/");
+        navigate(location?.state?.from?.pathname || "/");
       })
       .catch((error) => {
         console.log(error);
       });
   };
+
   const handleTogglePassword = (event) => {
     event.preventDefault();
     setShowPassword(!showPassword);

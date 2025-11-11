@@ -12,7 +12,7 @@ const ModelDetails = () => {
   const { user } = use(AuthContext);
   const [refetch, setRefetch] = useState(false);
 
-  const isCreator = model.createdBy === user?.email;
+  const isCreator = model?.createdBy === user?.email;
 
   useEffect(() => {
     fetch(`https://ai-manager-server.vercel.app/models/${id}`, {

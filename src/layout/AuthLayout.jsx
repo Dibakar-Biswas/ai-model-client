@@ -5,8 +5,8 @@ import Footer from '../components/Footer';
 
 const AuthLayout = () => {
     return (
-        <div className='max-w-screen mx-auto'>
-            <header className='w-full'>
+        <div className='mx-auto'>
+            <header className='mx-auto sticky top-0 h-fit z-50'>
                 <Navbar></Navbar>
             </header>
             <main>
