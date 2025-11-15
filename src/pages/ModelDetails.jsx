@@ -80,7 +80,7 @@ const ModelDetails = () => {
       headers: {
         "Content-type": "application/json",
       },
-      body: JSON.stringify({ finalModel }),
+      body: JSON.stringify(finalModel),
     })
       .then((res) => res.json())
       .then((data) => {

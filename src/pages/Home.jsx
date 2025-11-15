@@ -4,11 +4,13 @@ import ModelCard from "../components/ModelCard";
 import AboutAI from "../components/AboutAI";
 import GetStarted from "../components/GetStarted";
 import Sliders from "../components/Sliders";
+import Timeline from "../components/Timeline";
+import Platform from "../components/Platform";
 
 
 const Home = () => {
   const data = useLoaderData();
-  console.log(data);
+//   console.log(data);
   return (
     <div>
       <Sliders></Sliders>
@@ -24,6 +26,8 @@ const Home = () => {
 
       <AboutAI></AboutAI>
       <GetStarted></GetStarted>
+      {/* <Timeline></Timeline>
+      <Platform></Platform> */}
     </div>
   );
 };
